@@ -14,6 +14,7 @@
                     <ul class="list-group">
                         @foreach ($posts as $post)
                             <li class="list-group-item">{{$post->title}}</li>
+                            <a href="{{route('admin.posts.show',$post->slug)}}">Mostra Dettagli</a>
                         @endforeach
                     </ul>
                 </div>
