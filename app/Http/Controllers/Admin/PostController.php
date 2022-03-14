@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class PostController extends Controller
 {
     /**
@@ -37,7 +37,26 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=request()->validate([
+            "title"=>"required|min:5",
+            "content"=>"required|min:20"
+        ]);
+        $post=new Post();
+        $post->fill($data);
+        $slug=Str::slug($post->title);
+        $exists= Post::where("slug",$slug)->first();
+        $counter=1;
+        while ($exists) {
+            $newSlug=$slug . "-" . $counter;
+            $counter++;
+            $exists=Post::where("slug",$slug)->first();
+            if (!$exists) {
+                $slug=$newSlug;
+            }
+        }
+        $post->slug=$slug;
+        $post->save();
+        return redirect()->route('admin.posts.index');
     }
 
     /**
