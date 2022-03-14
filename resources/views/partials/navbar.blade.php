@@ -17,7 +17,7 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Authentication Links -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#" {{route('admin.posts.index')}}>Post</a>
+                    <a class="nav-link" href="{{route('admin.posts.index')}}">Post</a>
                 </li>
                 @guest
                     <li class="nav-item">

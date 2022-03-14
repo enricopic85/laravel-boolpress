@@ -5,7 +5,10 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Lista Post</div>
+                <div class="card-header">
+                    Lista Post
+                <a href="{{route('admin.posts.create')}}">Aggiungi</a>
+                </div>
 
                 <div class="card-body">
                     <ul class="list-group">
