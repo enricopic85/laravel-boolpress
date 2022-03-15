@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Post;
 use Illuminate\Http\Request;
@@ -55,6 +55,7 @@ class PostController extends Controller
             }
         }
         $post->slug=$slug;
+        $post->user_id=Auth::user()->id;
         $post->save();
         return redirect()->route('admin.posts.index');
     }
