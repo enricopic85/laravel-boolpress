@@ -14,6 +14,23 @@
             {{ $post->content }}
 
           </div>
+          <div class="my-3 ml-3">
+            Utente: {{ $post->user->name }}
+            <br>
+            Email: {{ $post->user->email }}
+          </div>
+
+          @if ($post->category !== null)
+            <div class="my-3 ms-3">
+              Categoria: {{ $post->category->code }}
+              <br>
+              Descrizione: {{ $post->category->description }}
+            </div>
+          @endif
+            <div>
+              {{-- Categoria:{{$post->category->code}}
+              Descrizione:{{$post->category->descrizione}} --}}
+            </div>
         </div>
       </div>
     </div>
