@@ -82,30 +82,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        $data=request()->validate([
-            "title"=>"required|min:5",
-            "content"=>"required|min:20"
+        $post = Post::where("slug", $slug)->first();
+        $categories = Category::all();
+    
+        return view("admin.posts.edit", [
+          "post" => $post,
+          "categories" => $categories
         ]);
-        $post=Post::findOrFail($id);
-        $categories=Category::all();
-        if ($data["title"] !== $post->title) {
-            $slug=Str::slug($data["title"]);
-            $exists= Post::where("slug",$slug)->first();
-            $counter=1;
-            while ($exists) {
-                $newSlug=$slug . "-" . $counter;
-                $counter++;
-                $exists=Post::where("slug",$slug)->first();
-                if (!$exists) {
-                    $slug=$newSlug;
-                }
-            }
-        }
-        $post->slug=$slug;
-        $post->update($data);
-        return redirect()->route("admin.posts.show",$post->id);
     }
 
     /**

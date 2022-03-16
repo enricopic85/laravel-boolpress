@@ -6,12 +6,12 @@
       <div class="col-md-8">
         <div class="card">
           <div class="card-header d-flex">
-            Dettagli post {{ $post->title }}
+            Dettagli post {{ $post['title'] }}
           </div>
-
+          {{-- <a href="{{route('admin.posts.edit')}}">Modifica</a> --}}
           <div class="card-body">
 
-            {{ $post->content }}
+            {{ $post['content'] }}
 
           </div>
           <div class="my-3 ml-3">
