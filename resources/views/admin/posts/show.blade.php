@@ -8,7 +8,7 @@
           <div class="card-header d-flex">
             Dettagli post {{ $post['title'] }}
           </div>
-          {{-- <a href="{{route('admin.posts.edit')}}">Modifica</a> --}}
+          <a href="{{route('admin.posts.edit',$post->slug)}}" class="ml-3 mt-3">Modifica</a>
           <div class="card-body">
 
             {{ $post['content'] }}
@@ -22,15 +22,15 @@
 
           @if ($post->category !== null)
             <div class="my-3 ms-3">
-              Categoria: {{ $post->category->code }}
+              Categoria: {{ $post->category->name}}
               <br>
               Descrizione: {{ $post->category->description }}
             </div>
           @endif
-            <div>
-              {{-- Categoria:{{$post->category->code}}
-              Descrizione:{{$post->category->descrizione}} --}}
-            </div>
+            {{-- <div>
+              Categoria:{{$post->category->name}}
+              Descrizione:{{$post->category->descrizione}}
+            </div> --}}
         </div>
       </div>
     </div>

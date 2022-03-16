@@ -6,6 +6,7 @@ use App\Category;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 class PostController extends Controller
@@ -17,7 +18,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts=Post::all();
+        // $posts=Post::all();
+        $posts = Post::where("user_id", Auth::user()->id)->get();
+
         return view('admin.posts.index',compact("posts"));
     }
 
@@ -29,7 +32,8 @@ class PostController extends Controller
     public function create()
     {
         $categories=Category::all();
-        return view('admin.posts.create',compact("categories"));
+        $tags=Tag::all();
+        return view('admin.posts.create',compact("categories","tags"));
     }
 
     /**
@@ -43,7 +47,8 @@ class PostController extends Controller
         $data=request()->validate([
             "title"=>"required|min:5",
             "content"=>"required|min:20",
-            "category_id"=>"nullable"
+            "category_id"=>"nullable",
+            "tags"=>"nullable"
         ]);
         $post=new Post();
         $post->fill($data);
@@ -61,6 +66,7 @@ class PostController extends Controller
         $post->slug=$slug;
         $post->user_id=Auth::user()->id;
         $post->save();
+        $post->tags()->attach($data["tags"]);
         return redirect()->route('admin.posts.index');
     }
 
@@ -86,10 +92,11 @@ class PostController extends Controller
     {
         $post = Post::where("slug", $slug)->first();
         $categories = Category::all();
-    
+        $tags=Tag::all();
         return view("admin.posts.edit", [
           "post" => $post,
-          "categories" => $categories
+          "categories" => $categories,
+          "tags"=>$tags
         ]);
     }
 
@@ -102,7 +109,62 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->validate([
+            "title" => "required|min:5",
+            "content" => "required|min:20",
+            "category_id" => "nullable|exists:categories,id",
+            "tags" => "nullable|exists:tags,id"
+          ]);
+      
+          $post = Post::findOrFail($id);
+      
+          //if ($data["title"] !== $post->title) {
+            // Genero lo slug partendo dal titolo
+            // $slug = Str::slug($data["title"]);
+            // controllo a db se esiste già un elemento con lo stesso slug
+            // $exists = Post::where("slug", $slug)->first();
+            // $counter = 1;
+      
+            // Fintanto che $exists ha un valore diverso da null o false,
+            // eseguo il while
+            /* while ($exists) {
+              // Genero un nuovo slug, prendendo quello precedente e concatenando un numero incrementale
+              $newSlug = $slug . "-" . $counter;
+              $counter++;
+              // controllo a db se esiste già un elemento con i nuovo slug appena generato
+              $exists = Post::where("slug", $newSlug)->first();
+              // Se non esiste, salvo il nuovo slug nella variabile $slub che verrà poi usata
+              // per assegnare il valore all'interno del nuovo post.
+              if (!$exists) {
+                $slug = $newSlug;
+              }
+            } */
+      
+            // $post->slug = $slug;
+            // $data["slug"] = $slug;
+      
+            // $data["slug"] = $this->generateUniqueSlug($data["title"]);
+         // }
+      
+          // $post->category_id = $data["category_id"];
+          $post->update($data);
+      
+         // if (key_exists("tags", $data)) {
+            // Aggiorniamo anche la tabella poste post_tag
+      
+            // Per il post corrente, dalla tabella ponte, rimuovo TUTTE le relazioni esistenti con i tag
+            $post->tags()->detach();
+      
+            // Per il post corrente, aggiungo le relazioni con i tag ricevuti
+             $post->tags()->attach($data["tags"]);
+      
+            // Farà prima il detach SOLO degli elementi che non sono più presenti nel nuovo array ricevuto dal form
+            // Farà eventualmente l'attach SOLO dei nuovi elementi
+            // I tag che c'erano prima e ci sono anche ora, non verranno toccati.
+            //$post->tags()->sync($data["tags"]);
+         // }
+           
+          return redirect()->route("admin.posts.show", $post->slug);
     }
 
     /**
@@ -113,6 +175,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post=Post::findOrFail($id);
+        $post->tags()->detach();
+        $post->destroy();
     }
+    
 }
