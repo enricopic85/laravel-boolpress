@@ -146,24 +146,12 @@ class PostController extends Controller
             // $data["slug"] = $this->generateUniqueSlug($data["title"]);
          // }
       
-          // $post->category_id = $data["category_id"];
+           $post->category_id = $data["category_id"];
           $post->update($data);
       
          // if (key_exists("tags", $data)) {
             // Aggiorniamo anche la tabella poste post_tag
-      
-            // Per il post corrente, dalla tabella ponte, rimuovo TUTTE le relazioni esistenti con i tag
-            $post->tags()->detach();
-      
-            // Per il post corrente, aggiungo le relazioni con i tag ricevuti
-             $post->tags()->attach($data["tags"]);
-      
-            // Farà prima il detach SOLO degli elementi che non sono più presenti nel nuovo array ricevuto dal form
-            // Farà eventualmente l'attach SOLO dei nuovi elementi
-            // I tag che c'erano prima e ci sono anche ora, non verranno toccati.
-            //$post->tags()->sync($data["tags"]);
-         // }
-           
+         $post->tags()->sync($data["tags"]);
           return redirect()->route("admin.posts.show", $post->slug);
     }
 

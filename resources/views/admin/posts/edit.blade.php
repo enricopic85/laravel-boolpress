@@ -53,6 +53,9 @@
                   <label class="form-check-label" for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
                 </div>
               @endforeach
+              @error('tags')
+                <div class="text-red">{{ $message }}</div>
+              @enderror
               </div>
               <div class="form-group">
                 <a href="{{ route('admin.posts.show', $post->slug) }}" class="btn btn-secondary">Annulla</a>
