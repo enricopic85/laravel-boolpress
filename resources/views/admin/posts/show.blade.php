@@ -31,6 +31,14 @@
               Categoria:{{$post->category->name}}
               Descrizione:{{$post->category->descrizione}}
             </div> --}}
+          @if ($post->tags !==null)
+            <div class="my-3 ms-3">
+              <span class="ml-3 mr-3"> tags: </span>
+              @foreach ($post->tags as $tag)
+                  <span class="bg-light mr-3">{{$tag->name}}</span>
+              @endforeach
+            </div>
+          @endif
         </div>
       </div>
     </div>

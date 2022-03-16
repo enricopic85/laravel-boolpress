@@ -149,9 +149,9 @@ class PostController extends Controller
            $post->category_id = $data["category_id"];
           $post->update($data);
       
-         // if (key_exists("tags", $data)) {
-            // Aggiorniamo anche la tabella poste post_tag
-         $post->tags()->sync($data["tags"]);
+         if (key_exists("tags", $data)) {
+            $post->tags()->sync($data["tags"]);
+         }
           return redirect()->route("admin.posts.show", $post->slug);
     }
 
