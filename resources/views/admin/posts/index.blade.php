@@ -14,10 +14,9 @@
                     <ul class="list-group">
                         @foreach ($posts as $post)
                             <li class="list-group-item">{{$post->title}}</li>
-                            @if (getDifferenceHour($post->created_at))
+                            @if ($post->getDifferenceHour($post->created_at))
                                 <div class="ml-3 mt-3"> Creato il: {{$post->getFormattedDate($post->created_at)}} </div>
                                 <div class="ml-3 mt-3"> Ultima modifica: {{$post->getFormattedDate($post->updated_at)}} </div>
-                                <div class="ml-3 mt-3"> Ultima modifica: {{$post->getDifferenceHour($post->created_at)}} </div>
                             @endif
                            
                             <div class="d-flex align-items-center ml-3">

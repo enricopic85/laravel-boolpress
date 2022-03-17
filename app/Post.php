@@ -22,7 +22,7 @@ class Post extends Model
     public function getDifferenceHour($startDate){
         $endDate=Carbon::now();
         $hours=$startDate->diffInHours($endDate);
-       if ($hours<=12) {
+       if ($hours <=12) {
            return true;
        }
     }
