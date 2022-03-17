@@ -38,7 +38,7 @@
                             <option value="">-- nessuna categoria --</option>
                             @foreach ($categories as $category)
                               <option value="{{ $category->id }}" @if (old('category_id') === $category->id) selected @endIf>
-                                {{ $category->code }}</option>
+                                {{ $category->name }}</option>
                             @endforeach
                           </select>
                         </div>

@@ -18,19 +18,15 @@
             Utente: {{ $post->user->name }}
             <br>
             Email: {{ $post->user->email }}
+            <br>
+            Creato il: {{$post->user->created_at}}
           </div>
 
           @if ($post->category !== null)
             <div class="my-3 ms-3">
-              Categoria: {{ $post->category->name}}
-              <br>
-              Descrizione: {{ $post->category->description }}
+            <span class="ml-3">  Categoria: {{ $post->category->name}} </span>
             </div>
           @endif
-            {{-- <div>
-              Categoria:{{$post->category->name}}
-              Descrizione:{{$post->category->descrizione}}
-            </div> --}}
           @if ($post->tags !==null)
             <div class="my-3 ms-3">
               <span class="ml-3 mr-3"> tags: </span>

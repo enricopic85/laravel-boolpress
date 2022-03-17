@@ -1,7 +1,7 @@
 <?php
 
 namespace App;
-
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
@@ -15,6 +15,15 @@ class Post extends Model
     }
     public function tags(){
         return $this->belongsToMany("App\Tag");
-    ;
+    }
+    public function getFormattedDate($parameter){
+        return $parameter->format("d-m-y H:i:s");
+    }
+    public function getDifferenceHour($startDate){
+        $endDate=Carbon::now();
+        $hours=$startDate->diffInHours($endDate);
+       if ($hours<=12) {
+           return true;
+       }
     }
 }

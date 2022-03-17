@@ -66,7 +66,10 @@ class PostController extends Controller
         $post->slug=$slug;
         $post->user_id=Auth::user()->id;
         $post->save();
-        $post->tags()->attach($data["tags"]);
+        if (key_exists("tags",$data)) {
+            $post->tags()->attach($data["tags"]);
+        }
+       
         return redirect()->route('admin.posts.index');
     }
 
@@ -165,7 +168,8 @@ class PostController extends Controller
     {
         $post=Post::findOrFail($id);
         $post->tags()->detach();
-        $post->destroy();
+        $post->delete();
+        return redirect()->route("admin.posts.index");
     }
     
 }
