@@ -20,10 +20,13 @@ class Post extends Model
         return $parameter->format("d-m-y H:i:s");
     }
     public function getDifferenceHour($startDate){
-        $endDate=Carbon::now();
-        $hours=$startDate->diffInHours($endDate);
+        $hours=$startDate->diffInHours();
        if ($hours <=12) {
            return true;
        }
+    }
+    public function actualTime($parameter){
+        $endDate=Carbon::now();
+        return $endDate->diffForHumans($parameter);
     }
 }
