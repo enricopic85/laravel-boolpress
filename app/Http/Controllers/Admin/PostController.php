@@ -64,7 +64,6 @@ class PostController extends Controller
             }
         }
         $post->slug=$slug;
-        $post->user_id=Auth::user()->id;
         $post->save();
         if (key_exists("tags",$data)) {
             $post->tags()->attach($data["tags"]);
