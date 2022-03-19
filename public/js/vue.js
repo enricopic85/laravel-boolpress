@@ -1960,6 +1960,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1971,15 +1979,27 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     _components_PostCard_vue__WEBPACK_IMPORTED_MODULE_2__["default"];
     return {
-      posts: []
+      posts: [],
+      pagination: {}
     };
   },
   methods: {
     fetchPosts: function fetchPosts() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/posts").then(function (resp) {
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      if (page < 1) {
+        page = 1;
+      }
+
+      if (page > this.pagination.last_page) {
+        page = this.pagination.last_page;
+      }
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/posts?page=" + page).then(function (resp) {
         console.log(resp);
+        _this.pagination = resp.data;
         _this.posts = resp.data.data;
       });
     }
@@ -3203,6 +3223,65 @@ var render = function () {
           return _c("PostCard", { key: post.id, attrs: { post: post } })
         }),
         1
+      ),
+    ]),
+    _vm._v(" "),
+    _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
+      _c(
+        "ul",
+        { staticClass: "pagination" },
+        [
+          _c("li", { staticClass: "page-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "page-link",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.fetchPosts(_vm.pagination.current_page - 1)
+                  },
+                },
+              },
+              [_vm._v("Previous")]
+            ),
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.pagination.last_page, function (page) {
+            return _c("li", { key: page, staticClass: "page-item d-flex" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.fetchPosts(page)
+                    },
+                  },
+                },
+                [_vm._v(_vm._s(page))]
+              ),
+            ])
+          }),
+          _vm._v(" "),
+          _c("li", { staticClass: "page-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "page-link",
+                attrs: { href: "#" },
+                on: {
+                  click: function ($event) {
+                    return _vm.fetchPosts(_vm.pagination.current_page + 1)
+                  },
+                },
+              },
+              [_vm._v("Next")]
+            ),
+          ]),
+        ],
+        2
       ),
     ]),
   ])
