@@ -2020,19 +2020,30 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _context.prev = 0;
+                _context.next = 3;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/api/posts/" + _this.$route.params.post);
 
-              case 2:
+              case 3:
                 resp = _context.sent;
                 _this.post = resp.data;
+                _context.next = 10;
+                break;
 
-              case 4:
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+
+                _this.$router.replace({
+                  name: "error"
+                });
+
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 7]]);
       }))();
     }
   },
@@ -20237,7 +20248,8 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
     }
   }, {
     path: "*",
-    component: _components_posts_Error_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    component: _components_posts_Error_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    name: "error"
   }]
 });
 router.beforeEach(function (to, from, next) {

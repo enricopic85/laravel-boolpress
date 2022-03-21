@@ -12,7 +12,7 @@ const router=new VueRouter({
         {path:"//",component: Home, name:"home.index", meta:{title:"HomePage",linkText:"Home"}},
         {path:"/contacts",component:Contacts ,name:"contacts.index",meta:{title:"Contatti",linkText:"Contatti"}},
         {path:"/posts/:post",component:Show,name:"posts.show", meta:{title:"Dettagli post"}},
-        {path:"*", component:Error}
+        {path:"*", component:Error,name:"error"}
     ]
 });
 router.beforeEach((to,from,next)=>{
