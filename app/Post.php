@@ -3,7 +3,6 @@
 namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
 class Post extends Model
 {
     protected $fillable=["title","content","user_id"];
@@ -29,4 +28,5 @@ class Post extends Model
         $endDate=Carbon::now();
         return $endDate->diffForHumans($parameter);
     }
+    
 }

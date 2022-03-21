@@ -6,7 +6,7 @@
         <h5 class="card-title">{{ post.title }}</h5>
         <p class="card-text" v-html="post.content"></p>
 
-        <em>Autore: {{ post.user.name }}; Data: {{ post.created_at }}</em>
+        <em>Autore: {{ post.user.name }}; Data: {{formatDate(post.created_at)}}</em> 
         <br />
         <strong v-if="post.category">Categoria: {{ post.category.name }}</strong>
       </div>
@@ -19,12 +19,15 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
 export default {
     props:{
         post:Object,
     },
     methods:{
-        
+        formatDate(date){
+            return dayjs(date).format("DD/MM/YYYY HH:mm");
+        }
     }
 }
 </script>
