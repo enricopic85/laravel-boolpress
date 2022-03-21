@@ -18,8 +18,7 @@ export default {
         }
     },
     mounted(){
-        this.routes= this.$router.getRoutes()
-        console.log(this.$router.getRoutes())
+        this.routes= this.$router.getRoutes().filter((route)=>route.meta.linkText);
     }
 }
 </script>
