@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateColumnInPostsTable extends Migration
+class CreateContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class UpdateColumnInPostsTable extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->longText("coverImg")->nullable()->change();
+        Schema::create('contacts', function (Blueprint $table) {
+            $table->id();
+            $table->string("name")->nullable();
+            $table->string("email");
+            $table->text("message");
+            $table->timestamps();
         });
     }
 
@@ -25,8 +29,6 @@ class UpdateColumnInPostsTable extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->longText("coverImg")->nullable()->change();
-        });
+        Schema::dropIfExists('contacts');
     }
 }

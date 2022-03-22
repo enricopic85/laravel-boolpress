@@ -2094,10 +2094,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      formValidationErrors: null,
+      formSubmitted: false,
       formData: {
         name: "",
         email: "",
@@ -2115,19 +2120,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                _context.prev = 0;
+                _this.formValidationErrors = null;
+                _context.next = 4;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/contacts", _this.formData);
 
-              case 2:
-                resp = _context.sent;
-                resp.data;
-
               case 4:
+                resp = _context.sent;
+                _this.formSubmitted = true;
+                _context.next = 12;
+                break;
+
+              case 8:
+                _context.prev = 8;
+                _context.t0 = _context["catch"](0);
+
+                if (_context.t0.response.status === 422) {
+                  _this.formValidationErrors = _context.t0.response.data.errors;
+                }
+
+                alert("C'è stato un problema riprovare l'invio");
+
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, null, [[0, 8]]);
       }))();
     }
   }
@@ -4398,109 +4417,113 @@ var render = function () {
   return _c("div", [
     _c("h1", [_vm._v("contatti")]),
     _vm._v(" "),
-    _c("form", [
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "exampleFormControlInput1" } }, [
-          _vm._v("Email address"),
-        ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
+    !_vm.formSubmitted
+      ? _c("form", [
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "exampleFormControlInput1" } }, [
+              _vm._v("Email address"),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.email,
+                  expression: "formData.email",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "email",
+                id: "exampleFormControlInput2",
+                placeholder: "name@example.com",
+              },
+              domProps: { value: _vm.formData.email },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.formData, "email", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "exampleFormControlInput1" } }, [
+              _vm._v("Name"),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.name,
+                  expression: "formData.name",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                id: "exampleFormControlInput1",
+                placeholder: "name@example.com",
+              },
+              domProps: { value: _vm.formData.name },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.formData, "name", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
+              _vm._v("Example textarea"),
+            ]),
+            _vm._v(" "),
+            _c("textarea", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.formData.message,
+                  expression: "formData.message",
+                },
+              ],
+              staticClass: "form-control",
+              attrs: { id: "exampleFormControlTextarea1", rows: "3" },
+              domProps: { value: _vm.formData.message },
+              on: {
+                input: function ($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.formData, "message", $event.target.value)
+                },
+              },
+            }),
+          ]),
+          _vm._v(" "),
+          _c(
+            "button",
             {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.email,
-              expression: "formData.email",
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit" },
+              on: { click: _vm.formSubmit },
             },
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "email",
-            id: "exampleFormControlInput2",
-            placeholder: "name@example.com",
-          },
-          domProps: { value: _vm.formData.email },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.formData, "email", $event.target.value)
-            },
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "exampleFormControlInput1" } }, [
-          _vm._v("Name"),
+            [_vm._v("Submit")]
+          ),
+        ])
+      : _c("div", { staticClass: "alert alert-success" }, [
+          _c("h4", [_vm._v("Grazie per averci contattato")]),
         ]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.name,
-              expression: "formData.name",
-            },
-          ],
-          staticClass: "form-control",
-          attrs: {
-            type: "text",
-            id: "exampleFormControlInput1",
-            placeholder: "name@example.com",
-          },
-          domProps: { value: _vm.formData.name },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.formData, "name", $event.target.value)
-            },
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
-          _vm._v("Example textarea"),
-        ]),
-        _vm._v(" "),
-        _c("textarea", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.formData.message,
-              expression: "formData.message",
-            },
-          ],
-          staticClass: "form-control",
-          attrs: { id: "exampleFormControlTextarea1", rows: "3" },
-          domProps: { value: _vm.formData.message },
-          on: {
-            input: function ($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.$set(_vm.formData, "message", $event.target.value)
-            },
-          },
-        }),
-      ]),
-      _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: { type: "submit" },
-          on: { click: _vm.formSubmit },
-        },
-        [_vm._v("Submit")]
-      ),
-    ]),
   ])
 }
 var staticRenderFns = []
