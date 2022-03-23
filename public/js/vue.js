@@ -2097,6 +2097,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2106,7 +2111,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       formData: {
         name: "",
         email: "",
-        message: ""
+        message: "",
+        attachment: null
       }
     };
   },
@@ -2115,24 +2121,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var resp;
+        var formDataInstance, resp;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.prev = 0;
                 _this.formValidationErrors = null;
-                _context.next = 4;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/contacts", _this.formData);
+                formDataInstance = new FormData();
+                formDataInstance.append("name", _this.formData.name);
+                formDataInstance.append("email", _this.formData.email);
+                formDataInstance.append("message", _this.formData.message);
+                formDataInstance.append("attachment", _this.formData.attachment);
+                _context.next = 9;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("/api/contacts", formDataInstance);
 
-              case 4:
+              case 9:
                 resp = _context.sent;
                 _this.formSubmitted = true;
-                _context.next = 12;
+                _context.next = 17;
                 break;
 
-              case 8:
-                _context.prev = 8;
+              case 13:
+                _context.prev = 13;
                 _context.t0 = _context["catch"](0);
 
                 if (_context.t0.response.status === 422) {
@@ -2141,13 +2152,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
                 alert("C'è stato un problema riprovare l'invio");
 
-              case 12:
+              case 17:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[0, 8]]);
+        }, _callee, null, [[0, 13]]);
       }))();
+    },
+    onAttachment: function onAttachment(event) {
+      console.log(event);
+      this.formData.attachment = event.target.files[0];
     }
   }
 });
@@ -4418,7 +4433,7 @@ var render = function () {
     _c("h1", [_vm._v("contatti")]),
     _vm._v(" "),
     !_vm.formSubmitted
-      ? _c("form", [
+      ? _c("div", [
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "exampleFormControlInput1" } }, [
               _vm._v("Email address"),
@@ -4452,7 +4467,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "exampleFormControlInput1" } }, [
+            _c("label", { attrs: { for: "exampleFormControlInput2" } }, [
               _vm._v("Name"),
             ]),
             _vm._v(" "),
@@ -4484,7 +4499,7 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "exampleFormControlTextarea1" } }, [
+            _c("label", { attrs: { for: "exampleFormControlTextarea3" } }, [
               _vm._v("Example textarea"),
             ]),
             _vm._v(" "),
@@ -4508,6 +4523,18 @@ var render = function () {
                   _vm.$set(_vm.formData, "message", $event.target.value)
                 },
               },
+            }),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group" }, [
+            _c("label", { attrs: { for: "exampleFormControlInput4" } }, [
+              _vm._v("Allegato"),
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { type: "file", id: "exampleFormControlInput3" },
+              on: { change: _vm.onAttachment },
             }),
           ]),
           _vm._v(" "),

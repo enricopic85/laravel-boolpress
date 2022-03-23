@@ -53,7 +53,7 @@ class PostController extends Controller
             "coverImg"=>"nullable|max:500"
         ]);
         $post=new Post();
-        $post->user_id=1;
+        $post->user_id=Auth::id();
         $post->fill($data);
         $slug=Str::slug($post->title);
         $exists= Post::where("slug",$slug)->first();

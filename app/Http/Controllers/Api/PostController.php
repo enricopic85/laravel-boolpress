@@ -13,11 +13,14 @@ class PostController extends Controller
     public function index(){
         $posts=Post::paginate(5);
         $posts->load("user","category");
-        // return response()->json([
-        //     "esito"=>"ok",
-        //     "dataRichiesta"=>now(),
-        //     "data"=>$post
-        // ]);
+        $posts->each(function($post){
+            if ($post->coverImg) {
+                $post->coverImg=asset("storage/" . $post->coverImg);
+            } else{
+                $post->coverImg="https://centroimplantologicomedico.it/wp-content/uploads/2016/10/orionthemes-placeholder-image.jpg";
+            }
+        });
+       
         return response()->json($posts);
     }
     public function store(Request $request){
