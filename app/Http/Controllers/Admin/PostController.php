@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 class PostController extends Controller
 {
@@ -48,9 +49,11 @@ class PostController extends Controller
             "title"=>"required|min:5",
             "content"=>"required|min:20",
             "category_id"=>"nullable",
-            "tags"=>"nullable"
+            "tags"=>"nullable",
+            "coverImg"=>"nullable|max:500"
         ]);
         $post=new Post();
+        $post->user_id=1;
         $post->fill($data);
         $slug=Str::slug($post->title);
         $exists= Post::where("slug",$slug)->first();
@@ -64,6 +67,9 @@ class PostController extends Controller
             }
         }
         $post->slug=$slug;
+        if (key_exists("coverImg",$data)) {
+            $post->coverImg=Storage::put("postCovers",$data["coverImg"]);
+        }
         $post->save();
         if (key_exists("tags",$data)) {
             $post->tags()->attach($data["tags"]);
@@ -115,41 +121,24 @@ class PostController extends Controller
             "title" => "required|min:5",
             "content" => "required|min:20",
             "category_id" => "nullable|exists:categories,id",
-            "tags" => "nullable|exists:tags,id"
+            "tags" => "nullable|exists:tags,id",
+            "coverImg"=>"nullable|image|max:500"
           ]);
       
           $post = Post::findOrFail($id);
-      
-          //if ($data["title"] !== $post->title) {
-            // Genero lo slug partendo dal titolo
-            // $slug = Str::slug($data["title"]);
-            // controllo a db se esiste già un elemento con lo stesso slug
-            // $exists = Post::where("slug", $slug)->first();
-            // $counter = 1;
-      
-            // Fintanto che $exists ha un valore diverso da null o false,
-            // eseguo il while
-            /* while ($exists) {
-              // Genero un nuovo slug, prendendo quello precedente e concatenando un numero incrementale
-              $newSlug = $slug . "-" . $counter;
-              $counter++;
-              // controllo a db se esiste già un elemento con i nuovo slug appena generato
-              $exists = Post::where("slug", $newSlug)->first();
-              // Se non esiste, salvo il nuovo slug nella variabile $slub che verrà poi usata
-              // per assegnare il valore all'interno del nuovo post.
-              if (!$exists) {
-                $slug = $newSlug;
-              }
-            } */
-      
-            // $post->slug = $slug;
-            // $data["slug"] = $slug;
-      
-            // $data["slug"] = $this->generateUniqueSlug($data["title"]);
-         // }
+         $post->update($data);
+         if (key_exists("coverImg",$data)) {
+            if ($post->coverImg) {
+                Storage::delete($post->coverImg);
+            }
+            $coverImg= Storage::put("postCovers",$data["coverImg"]);
+            $post->coverImg=$coverImg;
+            $post->save();
+         }
+        
       
            $post->category_id = $data["category_id"];
-          $post->update($data);
+         
       
          if (key_exists("tags", $data)) {
             $post->tags()->sync($data["tags"]);

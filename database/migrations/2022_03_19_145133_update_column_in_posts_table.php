@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToPostsTable extends Migration
+class UpdateColumnInPostsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddColumnToPostsTable extends Migration
     public function up()
     {
         Schema::table('posts', function (Blueprint $table) {
-             $table->string("coverImg")->nullable();
+            $table->longText("coverImg")->nullable()->change();
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnToPostsTable extends Migration
     public function down()
     {
         Schema::table('posts', function (Blueprint $table) {
-             $table->dropColumn("coverImg");
+            $table->string("coverImg")->nullable()->change();
         });
     }
 }

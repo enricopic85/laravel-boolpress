@@ -10,7 +10,12 @@
           </div>
           <a href="{{route('admin.posts.edit',$post->slug)}}" class="ml-3 mt-3">Modifica</a>
           <div class="card-body">
-
+            @if ($post->coverImg)
+            <img src="{{asset("storage/" . $post->coverImg)}}" class="img-fluid">
+            @else
+            <img src="https://socialistmodernism.com/wp-content/uploads/2017/07/placeholder-image.png?w=640" class="img-fluid" alt="">
+            @endif
+           
             {{ $post['content'] }}
 
           </div>
