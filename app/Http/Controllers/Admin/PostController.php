@@ -122,7 +122,7 @@ class PostController extends Controller
             "content" => "required|min:20",
             "category_id" => "nullable|exists:categories,id",
             "tags" => "nullable|exists:tags,id",
-            "coverImg"=>"nullable|image|max:500"
+             "coverImg"=>"nullable|image|max:500"
           ]);
       
           $post = Post::findOrFail($id);

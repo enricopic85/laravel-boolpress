@@ -50,7 +50,10 @@ export default {
         formDataInstance.append("name",this.formData.name);
         formDataInstance.append("email",this.formData.email);
         formDataInstance.append("message",this.formData.message);
-        formDataInstance.append("attachment",this.formData.attachment);
+        
+        if (this.formData.attachment) {
+          formDataInstance.append("attachment",this.formData.attachment);
+        }
         const resp=await  axios.post("/api/contacts",formDataInstance)
         this.formSubmitted=true;
       } catch (er) {
